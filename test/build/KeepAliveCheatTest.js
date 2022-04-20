@@ -11,6 +11,8 @@ function findState(dom) {
         parentFiber = parentFiber.return;
     return parentFiber.stateNode.state;
 }
+let acc = 0;
+let i = 0;
 setInterval(() => {
     const n = findState(document.getElementById('keep-alive')).number;
     if (n != -1)
@@ -18,6 +20,12 @@ setInterval(() => {
             if (isNaN(Number(num.innerHTML)) || Number(num.innerHTML) != n)
                 return;
             num.click();
+            i++;
+            if (i >= 1000) {
+                i = 0;
+                acc += i;
+                console.log(acc);
+            }
         });
-}, 100);
+}, 1);
 //# sourceMappingURL=KeepAliveCheatTest.js.map

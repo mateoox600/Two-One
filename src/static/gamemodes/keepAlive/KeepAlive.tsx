@@ -52,8 +52,8 @@ export default class KeepAlive extends React.Component<Props, State> {
 
         while(arrayContainElement(number, [ ...left, ...right ])) number = randomNumber();
 
-        const posLeft = Math.floor(Math.random() * 8 + 1);
-        const posRight = Math.floor(Math.random() * 8 + 1);
+        const posLeft = Math.floor(Math.random() * 12);
+        const posRight = Math.floor(Math.random() * 12);
 
         left[posLeft] = number;
         right[posRight] = number;
