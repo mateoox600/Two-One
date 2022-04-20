@@ -1,0 +1,8 @@
+{
+    "verbose": true,
+    "ignore": [".git/", "src/", "node_modules/", "build/dist/"],
+    "exec": "node build/server/",
+    "watch": [
+        "build/server/"
+    ]
+}

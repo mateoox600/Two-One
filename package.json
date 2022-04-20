@@ -1,0 +1,46 @@
+{
+    "name": "the-game",
+    "version": "0.0.0",
+    "license": "MIT",
+    "scripts": {
+        "webpack:dev": "webpack -w --mode development",
+        "webpack:build": "webpack --mode production",
+        "server:dev": "tsc -p tsconfig.server.json -w",
+        "server:build": "tsc -p tsconfig.server.json",
+        "build": "npm run webpack:build && npm run server:build",
+        "start": "node build/server/",
+        "dev": "concurrently \"set __DEV__=true && nodemon\" \"npm run webpack:dev\" \"npm run server:dev\"",
+        "dev:server": "set __DEV__=true && ts-node -P tsconfig.server.json src/server",
+        "dev:web": "webpack --mode development",
+        "test": "tsc -p ./test/tsconfig.json"
+    },
+    "dependencies": {
+        "compression": "^1.7.4",
+        "express": "^4.17.3",
+        "firebase": "^9.6.11",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "react-router-dom": "^6.3.0",
+        "socket.io": "^4.4.1",
+        "socket.io-client": "^4.4.1"
+    },
+    "devDependencies": {
+        "@types/compression": "^1.7.2",
+        "@types/react-dom": "^18.0.1",
+        "@typescript-eslint/eslint-plugin": "^5.20.0",
+        "@typescript-eslint/parser": "^5.20.0",
+        "concurrently": "^7.1.0",
+        "css-loader": "^6.7.1",
+        "eslint": "^8.13.0",
+        "nodemon": "^2.0.15",
+        "sass": "^1.50.0",
+        "sass-loader": "^12.6.0",
+        "style-loader": "^3.3.1",
+        "ts-loader": "^9.2.8",
+        "typescript": "^4.6.3",
+        "webpack": "^5.72.0",
+        "webpack-bundle-analyzer": "^4.5.0",
+        "webpack-cli": "^4.9.2",
+        "webpack-dev-server": "^4.8.1"
+    }
+}
