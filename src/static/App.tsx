@@ -26,7 +26,7 @@ export default class App extends React.Component<Props, State> {
                 <h1 className='rules'>
                     Two lists of numbers.<br />
                     Find the pair.<br />
-                    Not so simple.
+                    Harder than you think.
                 </h1>
                 <div id='gamemodes'>
                     <Link to='/time-rush' id='time-rush-link' className='link'>
