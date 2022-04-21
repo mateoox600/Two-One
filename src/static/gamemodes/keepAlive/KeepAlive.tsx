@@ -1,23 +1,17 @@
 import * as React from 'react';
 import './KeepAlive.scss';
 import { logEvent } from 'firebase/analytics';
-import { randomArray, randomNumber } from '../../../common/utils/RandomUtils';
-import { arrayContainArrayElement, arrayContainElement } from '../../../common/utils/ArrayUtils';
+import { getNewListsAndNumber } from '../../../common/utils/MainUtils';
+import { CommonState, defaultCommonState } from '../../../common/utils/StateUtils';
 import { analytics } from '../..';
 import { Link } from 'react-router-dom';
+import GamemodeUiComponent from '../GamemodeUi';
 
-type State = {
-    left: number[],
-    right: number[],
-    number: number,
-    start: number,
-    time: number,
-    bestTime: number,
-    newRecord: boolean,
+interface State extends CommonState {
     finished: boolean,
     timeLeft: number,
     timeAddition: number
-};
+}
 
 type Props = Record<string, never>;
 
@@ -26,13 +20,7 @@ export default class KeepAlive extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            left: [],
-            right: [],
-            number: -1,
-            start: Date.now(),
-            time: 0,
-            bestTime: Number(window.localStorage.getItem('keepAlive.best')) || 0,
-            newRecord: false,
+            ...defaultCommonState('keepAlive'),
             finished: true,
             timeLeft: 60,
             timeAddition: 0
@@ -40,30 +28,7 @@ export default class KeepAlive extends React.Component<Props, State> {
     }
 
     resetGame() {
-        let left = randomArray(12);
-        let right = randomArray(12);
-
-        while(arrayContainArrayElement(left, right)) {
-            left = randomArray(12);
-            right = randomArray(12);
-        }
-
-        let number = randomNumber();
-
-        while(arrayContainElement(number, [ ...left, ...right ])) number = randomNumber();
-
-        const posLeft = Math.floor(Math.random() * 12);
-        const posRight = Math.floor(Math.random() * 12);
-
-        left[posLeft] = number;
-        right[posRight] = number;
-
-        this.setState({
-            left: left,
-            right: right,
-            number: number
-        });
-        
+        this.setState(getNewListsAndNumber());
     }
 
     async fullReset() {
@@ -132,29 +97,12 @@ export default class KeepAlive extends React.Component<Props, State> {
                 {
                     !this.state.finished ? (
                         <>
-                            <div id='header'>
-                                <p id='time-left'>Time left: {Math.round(this.state.timeLeft / 1000)}s</p>
-                            </div>
-                            <div id='game-main'>
-                                <div id='left' className='container'>
-                                    {
-                                        this.state.left.map((n, idx) => {
-                                            return (
-                                                <h1 className='number' key={idx} onClick={ () => this.click(true, idx) }>{n}</h1>
-                                            );
-                                        })
-                                    }
-                                </div>
-                                <div id='right' className='container'>
-                                    {
-                                        this.state.right.map((n, idx) => {
-                                            return (
-                                                <h1 className='number' key={idx} onClick={ () => this.click(false, idx) }>{n}</h1>
-                                            );
-                                        })
-                                    }
-                                </div>
-                            </div>
+                            <GamemodeUiComponent
+                                left={this.state.left}
+                                right={this.state.right}
+                                timeLeft={this.state.timeLeft}
+                                click={this.click.bind(this)}
+                            />
                         </>
                     ) : (
                         <div id='end'>
