@@ -19,5 +19,6 @@ export function arrayContainElement(number: number, array: number[]) {
 }
 
 export function shuffle<T extends unknown[]>(array: T): T {
-    return array.sort(() => Math.random() - Math.random());
+    for (let i = 0; i < array.length * 2; i++) array = array.sort(() => Math.random() - Math.random());
+    return array;
 }

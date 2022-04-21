@@ -1,5 +1,4 @@
 
-
 export interface CommonState {
     left: number[],
     right: number[],

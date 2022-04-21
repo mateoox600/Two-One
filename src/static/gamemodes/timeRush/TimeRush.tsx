@@ -9,6 +9,8 @@ import GamemodeUiComponent from '../GamemodeUi';
 
 interface State extends CommonState {
     won: null | boolean,
+    displayingRightChoice: boolean,
+    choice: number,
     games: {
         won: number,
         lost: number
@@ -25,6 +27,8 @@ export default class TimeRush extends React.Component<Props, State> {
         this.state = {
             ...defaultCommonState('timeRush', { bestTimeIfNone: Number.POSITIVE_INFINITY }),
             won: false,
+            displayingRightChoice: false,
+            choice: -1,
             games: {
                 won: Number(window.localStorage.getItem('timeRush.won')) || 0,
                 lost: Number(window.localStorage.getItem('timeRush.lost')) || 0
@@ -40,56 +44,48 @@ export default class TimeRush extends React.Component<Props, State> {
             time: 0,
             newRecord: false,
             won: null,
+            choice: -1,
             timeLeft: 60
         });
     }
 
-    lose() {
+    endGame(won: boolean) {
+        const time = Date.now() - this.state.start;
+
+        const isNewBest = won && time < this.state.bestTime;
         this.setState({
-            won: false,
+            won: won,
+            displayingRightChoice: true,
+            time: won ? time : 0,
+            bestTime: isNewBest ? time : this.state.bestTime,
+            newRecord: isNewBest,
             games: {
-                lost: this.state.games.lost + 1,
-                won: this.state.games.won
+                lost: this.state.games.lost + (won ? 0 : 1),
+                won: this.state.games.won + (won ? 1 : 0)
             }
         }, () => {
             window.localStorage.setItem('timeRush.lost', this.state.games.lost.toString());
-            logEvent(analytics, 'time_rush_finished');
-        });
-    }
-
-    win(time: number) {
-        this.setState({
-            won: true,
-            time: time,
-            bestTime: time < this.state.bestTime ? time : this.state.bestTime,
-            newRecord: time < this.state.bestTime,
-            games: {
-                lost: this.state.games.lost,
-                won: this.state.games.won + 1
-            }
-        }, () => {
             window.localStorage.setItem('timeRush.best', this.state.bestTime.toString());
             window.localStorage.setItem('timeRush.won', this.state.games.won.toString());
             logEvent(analytics, 'time_rush_finished');
+    
+            setTimeout(() => this.setState({ displayingRightChoice: false }), 5*1000);
         });
     }
 
     click(left: boolean, idx: number) {
-        if((left ? this.state.left : this.state.right)[idx] != this.state.number) return this.lose();
-        const time = Date.now() - this.state.start;
-        this.win(time);
-    }
-
-    getTimeLeft() {
-        return ((this.state.start + 60 * 1000) - Date.now());
+        const num = (left ? this.state.left : this.state.right)[idx];
+        this.setState({ choice: num });
+        const won = num == this.state.number;
+        this.endGame(won);
     }
 
     componentDidMount() {
         setInterval(() => {
-            this.setState({
-                timeLeft: this.getTimeLeft()
+            if(!this.state.displayingRightChoice && this.state.won == null) this.setState({
+                timeLeft: (this.state.start + 60 * 1000) - Date.now()
             }, () => {
-                if(this.state.won == null && this.state.timeLeft <= 0) setTimeout(this.lose.bind(this));
+                if(this.state.won == null && this.state.timeLeft <= 0) setTimeout(this.endGame.bind(this, false));
             });
         }, 10);
     }
@@ -98,13 +94,17 @@ export default class TimeRush extends React.Component<Props, State> {
         return (
             <div id='time-rush'>
                 {
-                    this.state.won == null ? (
+                    this.state.won == null || this.state.displayingRightChoice ? (
                         <>
                             <GamemodeUiComponent
                                 left={this.state.left}
                                 right={this.state.right}
                                 timeLeft={this.state.timeLeft}
                                 click={this.click.bind(this)}
+                                coloring={[
+                                    { n: this.state.displayingRightChoice ? this.state.number : -1, color: 'green' },
+                                    { n: (this.state.won != null && this.state.won) ? -1 : this.state.choice, color: 'red' }
+                                ]}
                             />
                         </>
                     ) : (

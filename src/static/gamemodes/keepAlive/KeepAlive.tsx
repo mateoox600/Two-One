@@ -56,35 +56,17 @@ export default class KeepAlive extends React.Component<Props, State> {
         });
     }
 
-    lose() {
-        this.setState({
-            timeAddition: this.state.timeAddition - 10
-        }, () => {
-            this.resetGame();
-        });
-    }
-
-    win() {
-        this.setState({
-            timeAddition: this.state.timeAddition + 10
-        }, () => {
-            this.resetGame();
-        });
-    }
-
     click(left: boolean, idx: number) {
-        if((left ? this.state.left : this.state.right)[idx] != this.state.number) return this.lose();
-        this.win();
-    }
-
-    getTimeLeft() {
-        return ((this.state.start + 60 * 1000) - Date.now()) + this.state.timeAddition * 1000;
+        const won = (left ? this.state.left : this.state.right)[idx] == this.state.number;
+        this.setState({
+            timeAddition: this.state.timeAddition + (won ? 10 : -10)
+        }, () => this.resetGame());
     }
 
     componentDidMount() {
         setInterval(() => {
             if(!this.state.finished) this.setState({
-                timeLeft: this.getTimeLeft()
+                timeLeft: ((this.state.start + 60 * 1000) - Date.now()) + this.state.timeAddition * 1000
             }, () => {
                 if(!this.state.finished && this.state.timeLeft <= 0) setTimeout(this.finishGame.bind(this));
             });
@@ -102,6 +84,7 @@ export default class KeepAlive extends React.Component<Props, State> {
                                 right={this.state.right}
                                 timeLeft={this.state.timeLeft}
                                 click={this.click.bind(this)}
+                                coloring={[ ]}
                             />
                         </>
                     ) : (

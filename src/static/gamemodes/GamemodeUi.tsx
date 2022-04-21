@@ -4,6 +4,7 @@ import './GamemodeUi.scss';
 interface Props {
     left: number[],
     right: number[],
+    coloring: { n: number, color: string }[],
     timeLeft: number,
     click: (left: boolean, idx: number) => void
 }
@@ -22,8 +23,13 @@ export default class GamemodeUiComponent extends React.Component<Props, State> {
                     <div id='left' className='container'>
                         {
                             this.props.left.map((n, idx) => {
+                                let color = 'white';
+                                this.props.coloring.forEach((coloring) => {
+                                    if(coloring.n === -1 || coloring.n !== n) return;
+                                    color = coloring.color;
+                                });
                                 return (
-                                    <h1 className='number' key={idx} onClick={ () => this.props.click(true, idx) }>{n}</h1>
+                                    <h1 className='number' key={idx} style={{color}} onClick={ () => this.props.click(true, idx) }>{n}</h1>
                                 );
                             })
                         }
@@ -31,8 +37,13 @@ export default class GamemodeUiComponent extends React.Component<Props, State> {
                     <div id='right' className='container'>
                         {
                             this.props.right.map((n, idx) => {
+                                let color = 'white';
+                                this.props.coloring.forEach((coloring) => {
+                                    if(coloring.n === -1 || coloring.n !== n) return;
+                                    color = coloring.color;
+                                });
                                 return (
-                                    <h1 className='number' key={idx} onClick={ () => this.props.click(false, idx) }>{n}</h1>
+                                    <h1 className='number' key={idx} style={{color}} onClick={ () => this.props.click(false, idx) }>{n}</h1>
                                 );
                             })
                         }
