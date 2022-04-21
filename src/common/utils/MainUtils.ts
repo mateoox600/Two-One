@@ -1,24 +1,20 @@
 import { randomArray, randomNumber } from './RandomUtils';
-import { arrayContainArrayElement, arrayContainElement } from './ArrayUtils';
+import { shuffle } from './ArrayUtils';
 
 export function getNewListsAndNumber(): { left: number[], right: number[], number: number } {
-    let left = randomArray(12);
-    let right = randomArray(12);
 
-    while(arrayContainArrayElement(left, right)) {
-        left = randomArray(12);
-        right = randomArray(12);
-    }
+    const numbers = new Set(randomArray(23));
 
-    let number = randomNumber();
+    while(numbers.size < 23) numbers.add(randomNumber());
 
-    while(arrayContainElement(number, [ ...left, ...right ])) number = randomNumber();
+    const idx = Math.floor(Math.random() * 12);
+    const left = shuffle(Array.from(numbers).splice(0, 12));
+    const number = left[idx];
+    const right = shuffle(Array.from(numbers).splice(12).concat([ number ]));
 
-    const posLeft = Math.floor(Math.random() * 12);
-    const posRight = Math.floor(Math.random() * 12);
-
-    left[posLeft] = number;
-    right[posRight] = number;
-
-    return { left, right, number };
+    return {
+        left,
+        right,
+        number
+    };
 }

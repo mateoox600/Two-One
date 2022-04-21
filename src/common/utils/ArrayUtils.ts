@@ -17,3 +17,7 @@ export function arrayContainElement(number: number, array: number[]) {
     });
     return result;
 }
+
+export function shuffle<T extends unknown[]>(array: T): T {
+    return array.sort(() => Math.random() - Math.random());
+}
