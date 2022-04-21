@@ -23,7 +23,7 @@ export default class TimeRush extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            ...defaultCommonState('timeRush'),
+            ...defaultCommonState('timeRush', { bestTimeIfNone: Number.POSITIVE_INFINITY }),
             won: false,
             games: {
                 won: Number(window.localStorage.getItem('timeRush.won')) || 0,

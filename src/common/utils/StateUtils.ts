@@ -10,14 +10,18 @@ export interface CommonState {
     newRecord: boolean
 }
 
-export function defaultCommonState(mode: string): CommonState {
+export interface Options {
+    bestTimeIfNone: number
+}
+
+export function defaultCommonState(mode: string, options?: Partial<Options>): CommonState {
     return {
         left: [],
         right: [],
         number: -1,
         start: Date.now(),
         time: 0,
-        bestTime: Number(window.localStorage.getItem(`${mode}.best`)) || 0,
+        bestTime: Number(window.localStorage.getItem(`${mode}.best`)) || options?.bestTimeIfNone || 0,
         newRecord: false
     };
 }
