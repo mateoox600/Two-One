@@ -1,5 +1,4 @@
 
-
 export function arrayContainArrayElement(array1: number[], array2: number[]) {
     let result = false;
     array1.forEach((n1) => {

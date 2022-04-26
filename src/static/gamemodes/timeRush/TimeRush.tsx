@@ -22,6 +22,8 @@ type Props = Record<string, never>;
 
 export default class TimeRush extends React.Component<Props, State> {
 
+    public timeoutStore: NodeJS.Timer | null = null;
+
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -69,11 +71,17 @@ export default class TimeRush extends React.Component<Props, State> {
             window.localStorage.setItem('timeRush.won', this.state.games.won.toString());
             logEvent(analytics, 'time_rush_finished');
     
-            setTimeout(() => this.setState({ displayingRightChoice: false }), 5*1000);
+            this.timeoutStore = setTimeout(() => this.setState({ displayingRightChoice: false }), 5*1000);
         });
     }
 
     click(left: boolean, idx: number) {
+        if(this.state.displayingRightChoice) {
+            if(this.timeoutStore) clearTimeout(this.timeoutStore);
+            this.timeoutStore = null;
+            this.setState({ displayingRightChoice: false });
+            return;
+        }
         const num = (left ? this.state.left : this.state.right)[idx];
         this.setState({ choice: num });
         const won = num == this.state.number;
