@@ -1,0 +1,19 @@
+<h1 class='rules'>
+    Two lists of numbers.<br />
+    Find the pair.<br />
+    Harder than you think.
+</h1>
+<div id='gamemodes'>
+    <a [routerLink]="['/time-rush']" id='time-rush-link' class='link'>
+        <h1>Time Rush</h1>
+        <h2>{{this.timeRush < 0 ? 'No Record' : 'Best: ' + this.timeRush / 1000 + 's'}}</h2>
+    </a>
+    <a [routerLink]="['/keep-alive']" id='keep-alive-link' class='link'>
+        <h1>Keep Alive</h1>
+        <h2>{{this.keepAlive < 0 ? 'No Record' : 'Best: ' + this.keepAlive / 1000 + 's'}}</h2>
+    </a>
+</div>
+<h1 class='rules'>
+    Time Rush: As fast as possible!<br />
+    Keep Alive: Win or loose 10 seconds, try to survive.
+</h1>

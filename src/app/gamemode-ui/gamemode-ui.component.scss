@@ -1,0 +1,48 @@
+
+#header {
+    width: 100vw;
+    height: 5vh;
+    border-bottom: white 1px solid;
+    display: flex;
+    justify-content: center;
+}
+
+#time-left {
+    font-size: 4vh;
+}
+
+#game-main {
+    width: 100vw;
+    height: 95vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    cursor: default;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#left {
+    border-right: 1px white solid;
+    padding-left: 27vw;
+    padding-right: 2vw;
+}
+
+#right {
+    padding-right: 27vw;
+    padding-left: 2vw;
+}
+
+.number {
+    font-size: 4vh;
+    padding: 2%;
+    cursor: pointer;
+}

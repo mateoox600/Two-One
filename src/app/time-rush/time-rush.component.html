@@ -1,0 +1,26 @@
+
+<app-gamemode-ui *ngIf="this.state === GameState.PLAYING || this.state === GameState.DISPLAYING else end"
+    [left]="this.left"
+    [right]="this.right"
+    [timeLeft]="this.timeLeft"
+    [click]="this.click.bind(this)"
+    [coloring]="[
+        { n: this.state === GameState.DISPLAYING ? this.pickedNumber : -1, color: 'green' },
+        { n: this.state === GameState.DISPLAYING ? this.choice : -1, color: 'red' }
+    ]"
+></app-gamemode-ui>
+
+<ng-template #end>
+    <div id='end' [style.backgroundColor]="this.state === GameState.WON ? '#145c14' : '#5c1414'">
+        <h1 *ngIf="this.state === GameState.WON" id='time'>
+            {{this.newRecord ? 'New Best Time ' : ''}}{{this.time / 1000}}s
+        </h1>
+        <h1 id='ratio'>
+            Ratio: {{this.gameWon}}W/{{this.gameLost}}L ({{ ( (this.gameWon / (this.gameWon + this.gameLost)) * 100 | number: '1.0-0' ) || '100' }}%)
+        </h1>
+        <div id='buttons'>
+            <button (click)="this.startGame()" id='new-game' class='button'>New game</button>
+            <a [routerLink]="[ '/' ]" id='home' class='button'>Home</a>
+        </div>
+    </div>
+</ng-template>

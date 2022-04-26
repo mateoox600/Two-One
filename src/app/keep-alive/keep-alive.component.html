@@ -1,0 +1,22 @@
+
+
+<app-gamemode-ui *ngIf="this.state === GameState.PLAYING else end"
+    [left]="this.left"
+    [right]="this.right"
+    [timeLeft]="this.timeLeft"
+    [click]="this.click.bind(this)"
+    [coloring]="[ ]"
+    [style.backgroundColor]="this.flashing ? this.flashing : ''"
+></app-gamemode-ui>
+
+<ng-template #end>
+    <div id='end'>
+        <h1 id='time'>
+            {{this.newRecord ? 'New Best Time ' : ''}}{{this.time / 1000}}s
+        </h1>
+        <div id='buttons'>
+            <button (click)="this.startGame()" id='new-game' class='button'>New game</button>
+            <a [routerLink]="[ '/' ]" id='home' class='button'>Home</a>
+        </div>
+    </div>
+</ng-template>

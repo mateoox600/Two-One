@@ -1,0 +1,21 @@
+<div id='header'>
+    <p id='time-left'>Time left: {{this.timeLeft / 1000 | number: '1.0-0'}}s</p>
+</div>
+<div id='game-main'>
+    <div id='left' class='container'>
+        <h1
+            *ngFor="let n of left; let idx=index"
+            [style.color]="color(n)"
+            (click)="this.click(true, idx)"
+            class="number"
+        >{{n}}</h1>
+    </div>
+    <div id='right' class='container'>
+        <h1
+            *ngFor="let n of right; let idx=index"
+            [style.color]="color(n)"
+            (click)="this.click(false, idx)"
+            class="number"
+        >{{n}}</h1>
+    </div>
+</div>

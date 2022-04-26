@@ -1,0 +1,49 @@
+
+:host {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#end {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#time {
+    font-size: 8vw;
+}
+
+#ratio {
+    font-size: 4vw;
+}
+
+#buttons {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    width: 20%;
+    font-size: 2vw;
+    background-color: #2b2e3f;
+    border: none;
+    outline: none;
+    margin: 5px;
+    padding: 10px;
+    border: 1px black solid;
+    border-radius: 10px;
+    text-decoration: none;
+    text-align: center;
+}
