@@ -14,16 +14,16 @@ export class Gamemode {
     newRecord = false;
     bestTime: number;
 
-    constructor(mode: string, options?: Partial<Options>) {
-        this.bestTime = Number(window.localStorage.getItem(`${mode}.best`)) || options?.bestTimeIfNone || 0;
+    constructor(public name: string, options?: Partial<Options>) {
+        this.bestTime = Number(window.localStorage.getItem(`${name}.best`)) || options?.bestTimeIfNone || 0;
         this.time = this.bestTime;
     }
 
-    startGame(...a: unknown[]): void {
+    startGame(..._: unknown[]): void {
         throw new Error('Method not implemented.');
     }
 
-    endGame(...a: unknown[]): void {
+    endGame(..._: unknown[]): void {
         throw new Error('Method not implemented.');
     }
 
