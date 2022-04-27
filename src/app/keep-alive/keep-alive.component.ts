@@ -16,6 +16,7 @@ export class KeepAliveComponent extends Gamemode implements OnInit {
 
   public GameState = GameState;
 
+  public flashingTimer: ReturnType<typeof setInterval> | null = null;
   public state = GameState.FINISHED;
   public flashing: string | null = null;
   public timeLeft = 60;
@@ -50,7 +51,12 @@ export class KeepAliveComponent extends Gamemode implements OnInit {
     this.flashing = won ? '#145c14' : '#5c1414';
     this.newListsAndNumber();
 
-    setTimeout(() => {
+    if (this.flashingTimer) {
+      clearTimeout(this.flashingTimer);
+    }
+    this.flashingTimer = null;
+
+    this.flashingTimer = setTimeout(() => {
       this.flashing = null;
     }, 250);
   }
