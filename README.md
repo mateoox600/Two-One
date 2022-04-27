@@ -1,4 +1,4 @@
-# TwoOneGame
+# TwoOne
 
 ## Development server
 

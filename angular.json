@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "two-one-game": {
+    "two-one": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -69,18 +69,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "two-one-game:build"
+            "browserTarget": "two-one:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "two-one-game:build:production"
+              "browserTarget": "two-one:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "two-one-game:build"
+            "browserTarget": "two-one:build"
           }
         },
         "test": {
@@ -117,16 +117,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "two-one-game:serve"
+            "devServerTarget": "two-one:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "two-one-game:serve:production"
+              "devServerTarget": "two-one:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "two-one-game"
+  "defaultProject": "two-one"
 }
